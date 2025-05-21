@@ -10,7 +10,8 @@ export class ParticipantsController {
 
   @ApiOperation({summary: 'Запис на подію'})
   @ApiBody({type: ParticipantsDto})
-  @ApiResponse({status: 200, description: "Новий запис створена"})
+  @ApiResponse({status: 201, description: "Новий запис створена"})
+  @ApiResponse({status: 401, description: "Недійсний refresh-токен"})
   @ApiResponse({status: 409, description: "Кількість реєстрацій на цю подію вичерпано"})
   @ApiCookieAuth('refreshToken')
   @Post()
@@ -20,7 +21,7 @@ export class ParticipantsController {
 
   @ApiOperation({summary: 'Виведення усіх записів на усі події'})
   @ApiResponse({status: 200, description: "Події виведено"})
-  @ApiResponse({status: 400, description: "Список подій порожній"})
+  @ApiResponse({status: 400, description: "Непередбачувана помилка"})
   @Get()
   findAll() {
     return this.participantsService.findAll();
@@ -28,7 +29,8 @@ export class ParticipantsController {
 
   @ApiOperation({summary: 'Виведення запланованих подій'})
   @ApiResponse({status: 200, description: "Список подій виведено"})
-  @ApiResponse({status: 400, description: "Список подій порожній"})
+  @ApiResponse({status: 400, description: "Непередбачувана помилка"})
+  @ApiResponse({status: 500, description: "Невірний id"})
   @ApiParam({
       name: 'id',
       type: String,
@@ -43,6 +45,7 @@ export class ParticipantsController {
   @ApiOperation({summary: 'Виведення подій користувача'})
   @ApiResponse({status: 200, description: "Список подій виведено"})
   @ApiResponse({status: 400, description: "Список подій порожній"})
+  @ApiResponse({status: 500, description: "Невірний id"})
   @ApiParam({
       name: 'id',
       type: String,
@@ -57,6 +60,7 @@ export class ParticipantsController {
   @ApiOperation({summary: 'Видалення запланованої події'})
   @ApiResponse({status: 200, description: "Подію видалено"})
   @ApiResponse({status: 400, description: "Такої події не знадено"})
+  @ApiResponse({status: 500, description: "Невірний id"})
   @ApiParam({
       name: 'id',
       type: String,

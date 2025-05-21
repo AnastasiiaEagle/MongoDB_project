@@ -13,7 +13,7 @@ export class AuthController {
 
     @ApiOperation({summary: 'Реєстрація користувача'})
     @ApiBody({type: AuthDto})
-    @ApiResponse({status: 200, description: "Нового користувача створено"})
+    @ApiResponse({status: 201, description: "Нового користувача створено"})
     @ApiResponse({status: 400, description: "Некоректні дані"})
     @ApiProperty({
       description: 'access token, який потрібно зберегти в localStorage',

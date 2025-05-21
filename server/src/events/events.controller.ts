@@ -9,7 +9,7 @@ export class EventsController {
 
   @ApiOperation({summary: 'Створення події'})
   @ApiBody({type: EventsDto})
-  @ApiResponse({status: 200, description: "Нова подія створена"})
+  @ApiResponse({status: 201, description: "Нова подія створена"})
   @ApiResponse({status: 400, description: "Некоректні дані"})
   @Post()
   create(@Body() createPostDto: EventsDto) {
@@ -18,7 +18,7 @@ export class EventsController {
 
   @ApiOperation({summary: 'Виведення подій'})
   @ApiResponse({status: 200, description: "Подіїї виведено"})
-  @ApiResponse({status: 400, description: "Нічого не знайдено"})
+  @ApiResponse({status: 400, description: "Непередбачувана помилка"})
   @Get()
   findAll() {
     return this.eventsService.findAll();
@@ -26,7 +26,8 @@ export class EventsController {
 
   @ApiOperation({summary: 'Виведення події'})
   @ApiResponse({status: 200, description: "Подіїю виведено"})
-  @ApiResponse({status: 400, description: "Нічого не знайдено"})
+  @ApiResponse({status: 400, description: "Непередбачувана помилка"})
+  @ApiResponse({status: 500, description: "Невірний id"})
   @ApiParam({
     name: 'id',
     type: String,
@@ -41,6 +42,7 @@ export class EventsController {
   @ApiOperation({summary: 'Оновлення даних події'})
   @ApiResponse({status: 200, description: "Подіїю оновлено"})
   @ApiResponse({status: 400, description: "Некоректні дані"})
+  @ApiResponse({status: 500, description: "Невірний id"})
   @ApiParam({
     name: 'id',
     type: String,
@@ -55,6 +57,7 @@ export class EventsController {
   @ApiOperation({summary: 'Видалення події'})
   @ApiResponse({status: 200, description: "Подіїю видалено"})
   @ApiResponse({status: 400, description: "Некоректні дані"})
+  @ApiResponse({status: 500, description: "Невірний id"})
   @ApiParam({
     name: 'id',
     type: String,
