@@ -1,10 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 
-export class AuthDto {
-    @IsNotEmpty({message: "Поле не може бути пустим"})
-    @IsString({message: "Поле має бути рядком"})
-    username: string;
-
+export class LoginDto {
     @IsEmail({},{message: "Некоректний емейл"})
     @IsNotEmpty({message: "Поле не може бути пустим"})
     @IsString({message: "Поле має бути рядком"})

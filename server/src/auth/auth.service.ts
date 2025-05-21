@@ -7,6 +7,7 @@ import { isDev } from 'src/utils/id-dev.utils';
 import { hash, verify } from 'argon2';
 import { JwtPayload } from './interfaces/jwt.interface';
 import { Request, Response } from 'express';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
     } 
 
     async register(res: Response, dto: AuthDto){
-        const { email, password } = dto
+        const { username, email, password } = dto
 
         const existUser = await this.prismaService.users.findUnique({
             where: {
@@ -39,6 +40,7 @@ export class AuthService {
 
         const user = await this.prismaService.users.create({
             data: {
+                username,
                 email,
                 password: await hash(password)
             }
@@ -47,7 +49,7 @@ export class AuthService {
         return this.auth(res, user.id)
     }
 
-    async login(res: Response, dto: AuthDto){
+    async login(res: Response, dto: LoginDto){
         const {email, password} = dto
 
         const user = await this.prismaService.users.findUnique({

@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@ne
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { AuthDto } from './dto/auth.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +16,7 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    async login (@Res({passthrough: true}) res: Response, @Body() dto: AuthDto){
+    async login (@Res({passthrough: true}) res: Response, @Body() dto: LoginDto){
       return await this.authService.login(res, dto);
     }
 

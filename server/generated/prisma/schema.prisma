@@ -10,18 +10,53 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Users {
-  id String @id @default(uuid())
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  username String
   email    String @unique
   password String
+
+  participants Participants[] @relation("users_to_participants")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+model Events {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name            String
+  description     String
+  date            String
+  location        String
+  maxParticipants Int    @map("max_participants")
+
+  participants Participants[] @relation("events_to_participants")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("events")
+}
+
+model Participants {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  eventId String @db.ObjectId
+  userId  String @db.ObjectId
+
+  event Events @relation("events_to_participants", fields: [eventId], references: [id])
+  user  Users  @relation("users_to_participants", fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("participants")
 }
